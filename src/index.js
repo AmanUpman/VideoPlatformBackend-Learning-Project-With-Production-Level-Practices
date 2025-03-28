@@ -8,6 +8,8 @@ dotenv.config({
     path: "./.env",
 });
  
+//We are connecting mongodb database using index.js file in the db folder instead of doing it here like explained below 
+
 connectDB()
 .then(() => {
     app.on("error" , (error) => {
@@ -18,7 +20,7 @@ connectDB()
     })
 })
 .catch((err) => {
-    console.log("MongoDB connection failed : ", err);
+    console.log("MongoDB connection failed in index.js : ", err);
 })
 
 
