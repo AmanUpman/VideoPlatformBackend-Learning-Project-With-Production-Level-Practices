@@ -51,15 +51,16 @@ const userSchema = new Schema(
     }
 );
 
-//Encrypting the password
+// Encrypting the password
+// The pre middleware is executed before a specified operation is performed on a document. In   this case, it is used before the save operation on the userSchema.
 userSchema.pre("save", async function(next){
     if(!this.isModified("password"))  return next();
 
-    this.password = bcrypt.hash(this.password, 10)
+    this.password = await bcrypt.hash(this.password, 10)
     next()
 })
 
-//Comparing the given password and the rncrypted password using methord
+// Comparing the given password and the rncrypted password using methord
 userSchema.methods.isPasswordCorrecr = async function(password){
     return await bcrypt.compare(password , this.password)
 }
