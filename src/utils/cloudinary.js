@@ -1,5 +1,11 @@
+import dotenv from "dotenv"
 import {v2 as cloudinary} from "cloudinary"
 import fs from "fs"
+
+// We have to again import dotenv in here otherwise the image wont be uploaded and we will get error : "avatar no found" etc etc
+dotenv.config({
+    path : "./.env",
+});
 
 cloudinary.config({ 
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME, 
@@ -17,7 +23,8 @@ const uploadOnCloudinary = async(localPath) => {
         })
 
         //File has been uploded sucessfully
-        console.log("File has been uploded sucessfully" , response.url);
+        // console.log("File has been uploded sucessfully" , response.url);
+        fs.unlinkSync(localPath)
         return response;
 
     } catch (error){

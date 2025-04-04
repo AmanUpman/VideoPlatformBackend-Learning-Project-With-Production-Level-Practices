@@ -15,13 +15,13 @@ const registerUser = asyncHandler(async (req, res) => {
   // check for user creation
   // return res
 
-  const { username, email, fullName, password } = req.body;
-  console.log("Email :", email);
+  const { username, email, fullName, password } =  req.body;
+  // console.log("Email :", email);
 
   // VALIDATION - not empty
 
   // if(fullName === ""){
-  //     throw new ApiError = (400 , "Full Name cannot be empty")
+  //     throw new ApiError(400 , "Full Name cannot be empty")
   // }
 
   if (
@@ -31,7 +31,7 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 
   // CHECK IF USER ALREADY EXISTS
-  const existedUser = User.findOne({
+  const existedUser = await User.findOne({
     $or: [{ username }, { email }],
   });
   console.log(existedUser);
@@ -41,8 +41,15 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 
   // Setting up local path for AVATAR and COVER IMAGE
-  const avatarLocalPath = req.files?.avatar[0]?.path;
-  const coverImageLocalPath = req.files?.coverImage[0]?.path;
+  console.log("Uploaded Files:", JSON.stringify(req.files, null, 2));
+  const avatarLocalPath =  req.files?.avatar[0]?.path;
+  // const coverImageLocalPath = req.files?.coverImage[0]?.path;
+
+  // Checking if COVER IMAGE is available
+  let coverImageLocalPath;
+  if(req.files && Array.isArray(req.files.coverImage) && req.files.coverImage.length > 0){
+    coverImageLocalPath = req.files?.coverImage[0]?.path
+  }
 
   // Check if AVATAR is available
   if (!avatarLocalPath) {

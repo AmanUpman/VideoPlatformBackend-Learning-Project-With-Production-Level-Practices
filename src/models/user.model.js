@@ -66,7 +66,7 @@ userSchema.methods.isPasswordCorrecr = async function(password){
 }
 
 //Setting up the tokens 
-userSchema.methords.generateAccessToken = function(){
+userSchema.methods.generateAccessToken = function(){
     return jwt.sign(
         {
             _id : this.id,
@@ -81,7 +81,7 @@ userSchema.methords.generateAccessToken = function(){
     )
 }
 
-userSchema.methords.generateRefreshToken = function(){
+userSchema.methods.generateRefreshToken = function(){
     return jwt.sign(
         {
             _id : this.id,
