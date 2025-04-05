@@ -9,6 +9,7 @@ app.use(cors({
     credentials: true
 }))
 
+// Middlewares Setup
 app.use(express.json({limit : "16kb"}))
 app.use(express.urlencoded({extended:true , limit: "16kb"})) //We are using externded and all to even be able to handle nested objects
 app.use(express.static("public"))
@@ -16,7 +17,6 @@ app.use(cookieParser())
 
 //Routes Import
 import userRouter from "./routes/user.routes.js"
-
 
 //Routes Declaration
 app.use("/api/v1/users", userRouter)
