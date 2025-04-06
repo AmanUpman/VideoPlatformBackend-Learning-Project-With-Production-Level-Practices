@@ -7,7 +7,6 @@ dotenv.config({
 });
  
 //We are connecting mongodb database using index.js file in the db folder instead of doing it here like explained below 
-
 connectDB()
 .then(() => {
     app.on("error" , (error) => {
