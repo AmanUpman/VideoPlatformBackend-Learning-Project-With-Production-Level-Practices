@@ -7,6 +7,7 @@ It is built using Node.js, Express.js, MongoDB, and Mongoose, along with JWT, bc
 🔗 Project Model Overview:
 [Eraser Workspace Model
 ](https://app.eraser.io/workspace/20cUVQNzXMyjkyIgEWf0)
+
 📌 About the Project
 
 This project aims to replicate the core backend functionality of a video hosting platform. While the focus is on learning, the structure and implementation are designed to mirror best practices used in production environments.
