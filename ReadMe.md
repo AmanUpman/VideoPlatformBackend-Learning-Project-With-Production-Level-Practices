@@ -4,6 +4,9 @@ This project is a learning-focused backend application built to practice and imp
 
 It is built using Node.js, Express.js, MongoDB, and Mongoose, along with JWT, bcrypt, and other standard tools and libraries used in modern backend development.
 
+🔗 Project Model Overview:
+Eraser Workspace Model
+
 📌 About the Project
 
 This project aims to replicate the core backend functionality of a video hosting platform. While the focus is on learning, the structure and implementation are designed to mirror best practices used in production environments.
