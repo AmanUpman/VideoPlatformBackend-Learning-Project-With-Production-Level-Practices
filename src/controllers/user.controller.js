@@ -175,8 +175,8 @@ const logoutUser = asyncHandler(async (req, res) => {
   await User.findByIdAndUpdate(
     req.user._id,
     {
-      $set: {
-        refreshToken: undefined,
+      $unset: {
+        refreshToken: 1, //THis removes this field from document
       },
     },
     {
@@ -246,10 +246,10 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
   }
 });
 
-const changeCuurentPassword = asyncHandler(async (req, res) => {
+const changeCurrentPassword = asyncHandler(async (req, res) => {
   const { oldPassword, newPassword } = req.body;
 
-  const user = await User.findById(user?._id);
+  const user = await User.findById(req.user?._id);
 
   const isPasswordCorrect = await user.isPasswordCorrect(oldPassword);
 
@@ -279,7 +279,7 @@ const updateCurrentUser = asyncHandler(async (req, res) => {
   }
 
   const user = await User.findByIdAndUpdate(
-    user?._id,
+    req.user?._id,
     {
       $set: {
         fullName: fullName,
@@ -487,7 +487,7 @@ export {
   loginUser,
   logoutUser,
   refreshAccessToken,
-  changeCuurentPassword,
+  changeCurrentPassword,
   getCurrentUser,
   updateCurrentUser,
   updateUserAvatar,
