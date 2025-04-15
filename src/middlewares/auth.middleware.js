@@ -5,7 +5,7 @@ import { User } from "../models/user.model.js";
 
 export const verifyJWT = asyncHandler(async(req,res,next) => {
     try {
-        const token = req.cookies?.accessToken || req.header("Authorization")?.replace("Bearer","") // Here in the Header we simply want token from Bearer <token> that is available in jwt so we removed Bearer
+        const token = req.cookies?.accessToken || req.header("Authorization")?.replace("Bearer","") // Here in the Header we simply want token from "Bearer <token>" that is available in jwt so we removed Bearer
 
         if(!token){
             throw new ApiError(401, "Unauthorised Request")
