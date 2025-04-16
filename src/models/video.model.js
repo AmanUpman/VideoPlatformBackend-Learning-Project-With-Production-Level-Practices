@@ -1,4 +1,5 @@
 import mongoose, {Schema} from "mongoose";
+//The mongoose-aggregate-paginate-v2 library is used to facilitate pagination when working with MongoDB aggregate queries in a Mongoose application. Pagination is essential for managing large datasets by breaking them into smaller, more manageable chunks (pages).
 import mongooseAggregatePaginate from "mongoose-aggregate-paginate-v2";
 
 const videoSchema = new Schema({
@@ -39,5 +40,6 @@ const videoSchema = new Schema({
 }, {timestamps : true})
 
 
+//videoSchema.plugin(mongooseAggregatePaginate) is used to add pagination capabilities to a schema for video documents
 videoSchema.plugin(mongooseAggregatePaginate)
-export const Video = express.model("Video", videoSchema);
+export const Video = mongoose.model("Video", videoSchema);
