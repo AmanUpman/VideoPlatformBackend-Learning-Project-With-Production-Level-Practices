@@ -18,7 +18,9 @@ import { verifyJWT } from "../middlewares/auth.middleware.js";
 
 const router = Router();
 
+
 // We are using the middleware MULTER here to handel some files
+//upload is using multer middleware to allow us to upload files
 router.route("/register").post(
   upload.fields([
     {

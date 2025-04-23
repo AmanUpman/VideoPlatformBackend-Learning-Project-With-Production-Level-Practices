@@ -1,7 +1,7 @@
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { User } from "../models/user.model.js";
-import { uploadOnCloudinary } from "../utils/cloudinary.js";
+import { deleteFileCloudinary, uploadOnCloudinary } from "../utils/cloudinary.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
@@ -76,6 +76,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
   // Uploading files on CLOUDINARY
   const avatar = await uploadOnCloudinary(avatarLocalPath);
+  //console.log("Avatar" , avatar);
   const coverImage = await uploadOnCloudinary(coverImageLocalPath);
 
   if (!avatar) {
@@ -85,8 +86,14 @@ const registerUser = asyncHandler(async (req, res) => {
   // Creating the user in the DATABASE
   const user = await User.create({
     fullName,
-    avatar: avatar.url,
-    coverImage: coverImage?.url || "",
+    avatar: {
+      url : avatar.url,
+      public_id : avatar.public_id,
+    },
+    coverImage: {
+      url : coverImage?.url || "",
+      public_id : coverImage?.public_id || "",
+    },
     email,
     password,
     username: username.toLowerCase(),
@@ -298,12 +305,19 @@ const updateUserAvatar = asyncHandler(async (req, res) => {
   const avatarLocalPath = req.file?.path;
 
   if (!avatarLocalPath) {
-    throw new ApiError(401, "Avatar file is missing");
+    throw new ApiError(400,"Avatar file is missing");
   }
 
-  // FOR LATER : I want to delete the OLD IMAGE that is already here
-  // My approch : Creating a method like deleteFileCloudinary and using it here
+  // Deleting the old file from cloudinary
+  const oldUser = await User.findById(req.user?._id);
+  const oldPublicId = oldUser.avatar?.public_id;
 
+  console.log("oldpublic_id : ", oldPublicId);
+  if(oldPublicId){
+    await deleteFileCloudinary(oldPublicId);
+  }
+  
+  //Adding the new file on cloudinary
   const avatar = await uploadOnCloudinary(avatarLocalPath);
 
   if (!avatar.url) {
@@ -314,7 +328,10 @@ const updateUserAvatar = asyncHandler(async (req, res) => {
     req.user?._id,
     {
       $set: {
-        avatar: avatar.url,
+        avatar: {
+          url : avatar.url,
+          public_id : avatar.public_id,
+        }
       },
     },
     { new: true }
@@ -332,8 +349,13 @@ const updateUserCoverImage = asyncHandler(async (req, res) => {
     throw new ApiError(401, "Cover image file is missing");
   }
 
-  // FOR LATER : I want to delete the OLD IMAGE that is already here
-  // My approch : Creating a method like deleteFileCloudinary and using it here
+  // Deleting the old image from cloudinary
+  const oldUser = await User.findById(req.user?._id);
+  const oldCoverImagePublicId = await oldUser.coverImage.public_id;
+
+  if(oldCoverImagePublicId){
+    await deleteFileCloudinary(oldCoverImagePublicId);
+  }
 
   const coverImage = await uploadOnCloudinary(coverImageLocalPath);
 
@@ -345,7 +367,10 @@ const updateUserCoverImage = asyncHandler(async (req, res) => {
     req.user?._id,
     {
       $set: {
-        coverImage: coverImage.url,
+        coverImage: {
+          url : coverImage.url,
+          public_id : coverImage.public_id,
+        }
       },
     },
     { new: true }
