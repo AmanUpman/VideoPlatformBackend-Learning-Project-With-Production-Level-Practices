@@ -56,7 +56,7 @@ const userSchema = new Schema(
 userSchema.pre("save", async function(next){
     if(!this.isModified("password"))  return next(); // This method checks if the password field has been modified. If the password has not been changed (i.e., the user is updating other fields but not the password), the middleware will skip the hashing process
 
-    this.password = await bcrypt.hash(this.password, 10)
+    this.password = await bcrypt.hash(this.password, 10) //Here 10 in code related to password hashing with libraries like bcrypt, it usually refers to the number of salt rounds (also called the cost factor).
     next()
 })
 
