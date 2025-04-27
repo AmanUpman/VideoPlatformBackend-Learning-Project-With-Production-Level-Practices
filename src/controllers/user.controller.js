@@ -18,6 +18,12 @@ const generateAccessTokenAndRefreshToken = asyncHandler(async (userID) => {
   return { accessToken, refreshToken };
 });
 
+// There was an serious errror that took too much of my time and made my life hell as i had to cross check my previous commit to find when did it occur. But at the i was able to find that it was present from starting, and it was such that if of the four primary fields if i dont update anyone of the fied, i would get an unidentified error and their was no way to solve it.
+
+// The error was traced to two main sources:
+// 1.Async Handler Error: The initial `asyncHandler` was not properly handling errors and response statuses, causing "Invalid status code: ENOENT" and the app to crash. This was resolved by updating the `asyncHandler` function to properly catch and respond to errors without throwing invalid status codes.
+// 2.MongoDB Error: A "duplicate key" error caused by the incorrect unique constraint on the 'fullName' field in MongoDB, which was incorrectly set as unique in the Mongoose schema. This was causing a conflict when 'fullName' wasn't updated. The error message was: "E11000 duplicate key error collection: videotube.users index: fullName_1 dup key: { fullName: 'Nandan' }".
+
 const registerUser = asyncHandler(async (req, res) => {
   // get user details from frontend
   // validation - not empty
