@@ -86,7 +86,7 @@ const registerUser = asyncHandler(async (req, res) => {
   const coverImage = await uploadOnCloudinary(coverImageLocalPath);
 
   if (!avatar) {
-    throw new ApiError(400, "Avatar is required");
+    throw new ApiError(400, "Failed to upload avatar to Cloudinary");
   }
 
   // Creating the user in the DATABASE

@@ -4,12 +4,24 @@ import mongooseAggregatePaginate from "mongoose-aggregate-paginate-v2";
 
 const videoSchema = new Schema({
     videoFile : {
-        type : String,
-        required : true
+        url : {
+            type : String,
+            required : true
+        },
+        public_id : {
+            type : String,
+            required : true
+        }
     },
     thumbnail : {
-        type : String,
-        required : true
+        url : {
+            type : String,
+            required : true
+        },
+        public_id : {
+            type : String,
+            required : true
+        }
     },
     title : {
         type : String,
@@ -17,7 +29,7 @@ const videoSchema = new Schema({
     },
     description : {
         type : String,
-        required : true
+        // required : true
     },
     duration : {
         type : Number,
@@ -35,10 +47,7 @@ const videoSchema = new Schema({
         type : Schema.Types.ObjectId,
         ref : "User"
     }
-
-
 }, {timestamps : true})
-
 
 //videoSchema.plugin(mongooseAggregatePaginate) is used to add pagination capabilities to a schema for video documents
 videoSchema.plugin(mongooseAggregatePaginate)
