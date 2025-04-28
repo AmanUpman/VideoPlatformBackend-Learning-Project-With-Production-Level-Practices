@@ -52,7 +52,6 @@ const getAllVideos = asyncHandler(async (req, res) => {
 });
 
 const publishAVideo = asyncHandler(async (req, res) => {
-  // TODO: get video, upload to cloudinary, create video
   // Check if the title is not empty
   // Fetch the videoFile and thumbnail localpath
   // Check if thumbnail and videoFile present or not
